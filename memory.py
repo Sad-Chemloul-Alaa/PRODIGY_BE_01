@@ -1,18 +1,19 @@
 from typing import Dict
 from uuid import UUID , uuid4
-from .schemas import User , UserUpdate
+from schemas import User , UserUpdate,UserResponse
 from fastapi import HTTPException , status
 class User_Memory():
     def __init__(self):
-        self.users = Dict[UUID,User] = {}
+        self.users : Dict[UUID,UserResponse] = {}
 
-    def Display_all_users_infps(self):
+    def Display_all_users_infos(self):
         return list(self.users.values())
     
     def Get_user_infos_by_id(self , id : UUID):
         return self.users.get(id)
+    
     def Create_user(self, data: User):
-        user = User(
+        user = UserResponse(
             id=uuid4(), 
             user_name=data.user_name,
             user_email=data.user_email,
@@ -40,3 +41,5 @@ class User_Memory():
             )
         del self.users[user_id]
         return True
+    
+memory_use= User_Memory()
